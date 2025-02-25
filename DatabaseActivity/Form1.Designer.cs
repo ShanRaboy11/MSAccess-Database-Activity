@@ -28,8 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             dgvStudentInfo = new DataGridView();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            insertToolStripMenuItem = new ToolStripMenuItem();
+            updateToolStripMenuItem = new ToolStripMenuItem();
+            deleteToolStripMenuItem = new ToolStripMenuItem();
             btnConnect = new Button();
             btnLoad = new Button();
             btnUpdate = new Button();
@@ -47,6 +52,7 @@
             panel1 = new Panel();
             panel2 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dgvStudentInfo).BeginInit();
+            contextMenuStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -55,6 +61,7 @@
             // 
             dgvStudentInfo.BackgroundColor = Color.FromArgb(248, 230, 189);
             dgvStudentInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvStudentInfo.ContextMenuStrip = contextMenuStrip1;
             dgvStudentInfo.Location = new Point(23, 46);
             dgvStudentInfo.Name = "dgvStudentInfo";
             dgvStudentInfo.ReadOnly = true;
@@ -62,6 +69,33 @@
             dgvStudentInfo.Size = new Size(671, 497);
             dgvStudentInfo.TabIndex = 0;
             dgvStudentInfo.CellClick += dgvStudentInfo_CellClick;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { insertToolStripMenuItem, updateToolStripMenuItem, deleteToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(113, 70);
+            // 
+            // insertToolStripMenuItem
+            // 
+            insertToolStripMenuItem.Name = "insertToolStripMenuItem";
+            insertToolStripMenuItem.Size = new Size(112, 22);
+            insertToolStripMenuItem.Text = "Insert";
+            insertToolStripMenuItem.Click += btnInsert_Click;
+            // 
+            // updateToolStripMenuItem
+            // 
+            updateToolStripMenuItem.Name = "updateToolStripMenuItem";
+            updateToolStripMenuItem.Size = new Size(112, 22);
+            updateToolStripMenuItem.Text = "Update";
+            updateToolStripMenuItem.Click += btnUpdate_Click;
+            // 
+            // deleteToolStripMenuItem
+            // 
+            deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            deleteToolStripMenuItem.Size = new Size(112, 22);
+            deleteToolStripMenuItem.Text = "Delete";
+            deleteToolStripMenuItem.Click += btnDelete_Click;
             // 
             // btnConnect
             // 
@@ -85,7 +119,7 @@
             // 
             // btnUpdate
             // 
-            btnUpdate.Location = new Point(821, 216);
+            btnUpdate.Location = new Point(821, 213);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(78, 26);
             btnUpdate.TabIndex = 3;
@@ -175,7 +209,7 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(907, 216);
+            btnDelete.Location = new Point(907, 213);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(78, 26);
             btnDelete.TabIndex = 11;
@@ -185,7 +219,7 @@
             // 
             // btnInsert
             // 
-            btnInsert.Location = new Point(734, 216);
+            btnInsert.Location = new Point(734, 213);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(78, 26);
             btnInsert.TabIndex = 12;
@@ -216,6 +250,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(190, 229, 176);
             ClientSize = new Size(1024, 567);
+            ContextMenuStrip = contextMenuStrip1;
             Controls.Add(btnInsert);
             Controls.Add(btnDelete);
             Controls.Add(tbxFname);
@@ -237,6 +272,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Database";
             ((System.ComponentModel.ISupportInitialize)dgvStudentInfo).EndInit();
+            contextMenuStrip1.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             panel2.ResumeLayout(false);
@@ -263,5 +299,9 @@
         private Button btnInsert;
         private Panel panel1;
         private Panel panel2;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem insertToolStripMenuItem;
+        private ToolStripMenuItem updateToolStripMenuItem;
+        private ToolStripMenuItem deleteToolStripMenuItem;
     }
 }
