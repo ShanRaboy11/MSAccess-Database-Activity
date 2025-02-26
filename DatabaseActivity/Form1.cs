@@ -21,7 +21,7 @@ namespace DatabaseActivity
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            myConn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source= Z:\\L65Y12W25\\RABOY, SHAN MICHAEL V. [SchoolDatabase].accdb");
+            myConn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source= C:\\Users\\Shan Michael\\OneDrive\\??\\2nd Year 2nd Sem\\OOP2\\RABOY, SHAN MICHAEL V. [SchoolDatabase].accdb");
             ds = new DataSet();
             myConn.Open();
             System.Windows.Forms.MessageBox.Show("Connected successfully!");
@@ -30,7 +30,7 @@ namespace DatabaseActivity
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            myConn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source= Z:\\L65Y12W25\\RABOY, SHAN MICHAEL V. [SchoolDatabase].accdb");
+            myConn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source= C:\\Users\\Shan Michael\\OneDrive\\??\\2nd Year 2nd Sem\\OOP2\\RABOY, SHAN MICHAEL V. [SchoolDatabase].accdb");
 
             da = new OleDbDataAdapter("SELECT *FROM Student", myConn);
             //or da = new OleDbDataAdapter("SELECT Student.LastName, Student.FirstName, 
