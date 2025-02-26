@@ -24,7 +24,7 @@ namespace DatabaseActivity
             myConn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source= C:\\Users\\Shan Michael\\source\\repos\\RABOY, SHAN MICHAEL V. [SchoolDatabase].accdb");
             ds = new DataSet();
             myConn.Open();
-            System.Windows.Forms.MessageBox.Show("Connected successfully!");
+            System.Windows.Forms.MessageBox.Show("Connected successfully!", "Database Connected", MessageBoxButtons.OK, MessageBoxIcon.Information);
             myConn.Close();
         }
 
@@ -46,6 +46,7 @@ namespace DatabaseActivity
             cmd = new OleDbCommand(query, myConn);
             cmd.Parameters.AddWithValue("@LName", tbxLname.Text);
             cmd.Parameters.AddWithValue("@FName", tbxFname.Text);
+
             myConn.Open();
             cmd.ExecuteNonQuery();
             da = new OleDbDataAdapter("SELECT *FROM Student", myConn);
@@ -73,6 +74,7 @@ namespace DatabaseActivity
             cmd = new OleDbCommand(query, myConn);
             cmd.Parameters.AddWithValue("@id",
             dgvStudentInfo.CurrentRow.Cells[0].Value);
+
             myConn.Open();
             cmd.ExecuteNonQuery();
             da = new OleDbDataAdapter("SELECT *FROM Student", myConn);
@@ -92,6 +94,7 @@ namespace DatabaseActivity
             cmd.Parameters.AddWithValue("@Lname", tbxLname.Text);
             cmd.Parameters.AddWithValue("@Fname", tbxFname.Text); 
             cmd.Parameters.AddWithValue("@id", Convert.ToInt32(tbxID.Text));
+
             myConn.Open();
             cmd.ExecuteNonQuery();
             da = new OleDbDataAdapter("SELECT *FROM Student", myConn);
