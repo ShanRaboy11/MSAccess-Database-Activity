@@ -14,6 +14,7 @@ namespace DatabaseActivity
         OleDbCommand? cmd;
         DataSet? ds;
         int indexRow;
+        private string selectedTable;
         public Form1()
         {
             InitializeComponent();
@@ -31,12 +32,16 @@ namespace DatabaseActivity
         private void btnLoad_Click(object sender, EventArgs e)
         {
             myConn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source= C:\\Users\\Shan Michael\\source\\repos\\RABOY, SHAN MICHAEL V. [SchoolDatabase].accdb");
-
-            da = new OleDbDataAdapter("SELECT *FROM Student", myConn);
+            if (string.IsNullOrEmpty(selectedTable))
+            {
+                MessageBox.Show("No table selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            da = new OleDbDataAdapter($"SELECT *FROM {selectedTable}", myConn);
             ds = new DataSet();
             myConn.Open();
-            da.Fill(ds, "Student");
-            dgvStudentInfo.DataSource = ds.Tables["Student"];
+            da.Fill(ds, selectedTable);
+            dgvStudentInfo.DataSource = ds.Tables[selectedTable];
             myConn.Close();
         }
 
@@ -105,6 +110,47 @@ namespace DatabaseActivity
             tbxID.Text = "";
             tbxLname.Text = "";
             tbxFname.Text = "";
+        }
+
+        private void LoadTableNames()
+        {
+            try
+            {
+                myConn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\Shan Michael\\source\\repos\\RABOY, SHAN MICHAEL V. [SchoolDatabase].accdb");
+                myConn.Open();
+
+                DataTable dt = myConn.GetSchema("Tables");
+                cmbTables.Items.Clear();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string tableName = row["TABLE_NAME"].ToString();
+                    if (!tableName.StartsWith("MSys")) // Ignore system tables
+                    {
+                        cmbTables.Items.Add(tableName);
+                    }
+                }
+
+                myConn.Close();
+
+                // Set default selection
+                if (cmbTables.Items.Count > 0)
+                {
+                    cmbTables.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading tables: " + ex.Message);
+            }
+        }
+
+        private void cmbTables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbTables.SelectedItem != null)
+            {
+                selectedTable = cmbTables.SelectedItem.ToString();
+            }
         }
     }
 }

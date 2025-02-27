@@ -51,11 +51,15 @@
             btnInsert = new Button();
             panel1 = new Panel();
             panel2 = new Panel();
+            cmbTables = new ComboBox();
+            panel3 = new Panel();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvStudentInfo).BeginInit();
             contextMenuStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // dgvStudentInfo
@@ -76,26 +80,26 @@
             contextMenuStrip1.Font = new Font("Helvetica Neue", 10.749999F);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { insertToolStripMenuItem, updateToolStripMenuItem, deleteToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(181, 92);
+            contextMenuStrip1.Size = new Size(129, 70);
             // 
             // insertToolStripMenuItem
             // 
             insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-            insertToolStripMenuItem.Size = new Size(180, 22);
+            insertToolStripMenuItem.Size = new Size(128, 22);
             insertToolStripMenuItem.Text = "Insert";
             insertToolStripMenuItem.Click += btnInsert_Click;
             // 
             // updateToolStripMenuItem
             // 
             updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-            updateToolStripMenuItem.Size = new Size(180, 22);
+            updateToolStripMenuItem.Size = new Size(128, 22);
             updateToolStripMenuItem.Text = "Update";
             updateToolStripMenuItem.Click += btnUpdate_Click;
             // 
             // deleteToolStripMenuItem
             // 
             deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            deleteToolStripMenuItem.Size = new Size(180, 22);
+            deleteToolStripMenuItem.Size = new Size(128, 22);
             deleteToolStripMenuItem.Text = "Delete";
             deleteToolStripMenuItem.Click += btnDelete_Click;
             // 
@@ -230,7 +234,7 @@
             // btnInsert
             // 
             btnInsert.Font = new Font("Helvetica Neue", 11.9999981F);
-            btnInsert.Location = new Point(737, 180);
+            btnInsert.Location = new Point(737, 295);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(78, 32);
             btnInsert.TabIndex = 12;
@@ -249,7 +253,7 @@
             panel1.Controls.Add(tbxFname);
             panel1.Controls.Add(tbxID);
             panel1.Controls.Add(tbxLname);
-            panel1.Location = new Point(718, 60);
+            panel1.Location = new Point(718, 175);
             panel1.Name = "panel1";
             panel1.Size = new Size(306, 163);
             panel1.TabIndex = 13;
@@ -264,6 +268,40 @@
             panel2.Size = new Size(306, 59);
             panel2.TabIndex = 14;
             // 
+            // cmbTables
+            // 
+            cmbTables.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbTables.Font = new Font("Helvetica Neue", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            cmbTables.FormattingEnabled = true;
+            cmbTables.Items.AddRange(new object[] { "Student", "FinalGrade", "SubjectsEnrolled" });
+            cmbTables.Location = new Point(112, 15);
+            cmbTables.Name = "cmbTables";
+            cmbTables.Size = new Size(174, 26);
+            cmbTables.TabIndex = 15;
+            cmbTables.TabStop = false;
+            cmbTables.SelectedIndexChanged += cmbTables_SelectedIndexChanged;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.FromArgb(157, 214, 231);
+            panel3.Controls.Add(label4);
+            panel3.Controls.Add(cmbTables);
+            panel3.Location = new Point(718, 58);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(306, 58);
+            panel3.TabIndex = 14;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.FromArgb(157, 214, 231);
+            label4.Font = new Font("Helvetica Neue", 15F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            label4.Location = new Point(22, 18);
+            label4.Name = "label4";
+            label4.Size = new Size(68, 22);
+            label4.TabIndex = 12;
+            label4.Text = "Table:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -271,6 +309,7 @@
             BackColor = Color.FromArgb(190, 229, 176);
             ClientSize = new Size(1046, 522);
             ContextMenuStrip = contextMenuStrip1;
+            Controls.Add(panel3);
             Controls.Add(btnInsert);
             Controls.Add(dgvStudentInfo);
             Controls.Add(menuStrip1);
@@ -289,6 +328,8 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -316,5 +357,8 @@
         private ToolStripMenuItem insertToolStripMenuItem;
         private ToolStripMenuItem updateToolStripMenuItem;
         private ToolStripMenuItem deleteToolStripMenuItem;
+        private ComboBox cmbTables;
+        private Panel panel3;
+        private Label label4;
     }
 }
