@@ -53,6 +53,7 @@
             lblStudentID = new Label();
             lblFirstName = new Label();
             pnlControls = new Panel();
+            pbDatabaseIcon = new PictureBox();
             tbxLastCol = new TextBox();
             lblLastCol = new Label();
             tbxYearLevel = new TextBox();
@@ -68,6 +69,7 @@
             contextMenuStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             pnlControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDatabaseIcon).BeginInit();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -133,14 +135,16 @@
             // exportToolStripMenuItem
             // 
             exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            exportToolStripMenuItem.Size = new Size(125, 22);
+            exportToolStripMenuItem.Size = new Size(180, 22);
             exportToolStripMenuItem.Text = "Export";
+            exportToolStripMenuItem.Click += ExportToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(125, 22);
+            openToolStripMenuItem.Size = new Size(180, 22);
             openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
             // 
             // connectionTestToolStripMenuItem
             // 
@@ -172,7 +176,6 @@
             cmbTables.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTables.Font = new Font("Helvetica Neue", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 204);
             cmbTables.FormattingEnabled = true;
-            cmbTables.Items.AddRange(new object[] { "Student", "FinalGrade", "SubjectsEnrolled", "GradeQuery", "StudentQuery" });
             cmbTables.Location = new Point(112, 15);
             cmbTables.Name = "cmbTables";
             cmbTables.Size = new Size(194, 26);
@@ -279,6 +282,7 @@
             // pnlControls
             // 
             pnlControls.BackColor = Color.FromArgb(157, 214, 231);
+            pnlControls.Controls.Add(pbDatabaseIcon);
             pnlControls.Controls.Add(tbxLastCol);
             pnlControls.Controls.Add(lblLastCol);
             pnlControls.Controls.Add(tbxYearLevel);
@@ -299,6 +303,16 @@
             pnlControls.Size = new Size(328, 270);
             pnlControls.TabIndex = 13;
             pnlControls.Visible = false;
+            // 
+            // pbDatabaseIcon
+            // 
+            pbDatabaseIcon.Image = Properties.Resources.NY0y;
+            pbDatabaseIcon.Location = new Point(0, 0);
+            pbDatabaseIcon.Name = "pbDatabaseIcon";
+            pbDatabaseIcon.Size = new Size(328, 251);
+            pbDatabaseIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            pbDatabaseIcon.TabIndex = 20;
+            pbDatabaseIcon.TabStop = false;
             // 
             // tbxLastCol
             // 
@@ -427,12 +441,12 @@
             BackColor = Color.FromArgb(190, 229, 176);
             ClientSize = new Size(1067, 590);
             ContextMenuStrip = contextMenuStrip1;
-            Controls.Add(lblTableName);
             Controls.Add(panel3);
             Controls.Add(dgvStudentInfo);
             Controls.Add(menuStrip1);
             Controls.Add(pnlControls);
             Controls.Add(panel2);
+            Controls.Add(lblTableName);
             Font = new Font("Helvetica Neue", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 204);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
@@ -445,6 +459,7 @@
             menuStrip1.PerformLayout();
             pnlControls.ResumeLayout(false);
             pnlControls.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDatabaseIcon).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             panel2.ResumeLayout(false);
@@ -488,5 +503,6 @@
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem exportToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
+        private PictureBox pbDatabaseIcon;
     }
 }

@@ -4,6 +4,9 @@ using Microsoft.VisualBasic.Logging;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.ComponentModel;
 using System.Xml.Linq;
+using System.Windows.Forms;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace DatabaseActivity
 {
@@ -18,6 +21,8 @@ namespace DatabaseActivity
         public Form1()
         {
             InitializeComponent();
+            pbDatabaseIcon.Parent = this;
+            pbDatabaseIcon.Location = new System.Drawing.Point(718, 194);
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -25,37 +30,47 @@ namespace DatabaseActivity
             myConn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source= C:\\Users\\Shan Michael\\source\\repos\\RABOY, SHAN MICHAEL V. [SchoolDatabase].accdb");
             ds = new DataSet();
             myConn.Open();
+            DataTable tables = myConn.GetSchema("Tables");
+            cmbTables.Items.Clear();
+
+            foreach (DataRow row in tables.Rows)
+            {
+                string tableName = row["TABLE_NAME"].ToString();
+                if (!tableName.StartsWith("MSys"))
+                {
+                    cmbTables.Items.Add(tableName);
+                }
+            }
             System.Windows.Forms.MessageBox.Show("Connected successfully!", "Database Connected", MessageBoxButtons.OK, MessageBoxIcon.Information);
             myConn.Close();
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            myConn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source= C:\\Users\\Shan Michael\\source\\repos\\RABOY, SHAN MICHAEL V. [SchoolDatabase].accdb");
+            myConn.Close();
+
             if (string.IsNullOrEmpty(selectedTable))
             {
                 MessageBox.Show("No table selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            da = new OleDbDataAdapter($"SELECT *FROM {selectedTable}", myConn);
+
+            da = new OleDbDataAdapter($"SELECT * FROM [{selectedTable}]", myConn);
             ds = new DataSet();
             myConn.Open();
             da.Fill(ds, selectedTable);
             dgvStudentInfo.DataSource = ds.Tables[selectedTable];
             myConn.Close();
+
             DisplayControls(selectedTable);
-            tbxID.Text = "";
-            tbxLname.Text = "";
-            tbxFname.Text = "";
-            tbxCourse.Text = "";
-            tbxYearLevel.Text = "";
-            tbxLastCol.Text = "";
+            ClearTextFields();
         }
+
 
         private void btnInsert_Click(object sender, EventArgs e)
         {
             string query = null;
-            cmd = new OleDbCommand(); 
+            cmd = new OleDbCommand();
             cmd.Connection = myConn;
 
             if (selectedTable == "Student")
@@ -85,13 +100,13 @@ namespace DatabaseActivity
                 cmd.Parameters.AddWithValue("@CourseNum5", tbxLastCol.Text);
             }
 
-            if (query != null) 
+            if (query != null)
             {
                 cmd.CommandText = query;
                 myConn.Open();
                 cmd.ExecuteNonQuery();
                 myConn.Close();
-
+                MessageBox.Show("Record inserted successfully", "Insert", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 da = new OleDbDataAdapter($"SELECT * FROM {selectedTable}", myConn);
                 ds = new DataSet();
                 myConn.Open();
@@ -116,7 +131,7 @@ namespace DatabaseActivity
             tbxFname.Text = row.Cells[2].Value.ToString();
             tbxCourse.Text = row.Cells[3].Value.ToString();
             tbxYearLevel.Text = row.Cells[4].Value.ToString();
-            if(dgvStudentInfo.ColumnCount > 5)
+            if (dgvStudentInfo.ColumnCount > 5)
             {
                 tbxLastCol.Text = row.Cells[5].Value.ToString();
             }
@@ -136,6 +151,7 @@ namespace DatabaseActivity
             da.Fill(ds, selectedTable);
             dgvStudentInfo.DataSource = ds.Tables[selectedTable];
             myConn.Close();
+            MessageBox.Show("Record deleted successfully", "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearTextFields();
         }
 
@@ -182,7 +198,7 @@ namespace DatabaseActivity
                 myConn.Open();
                 cmd.ExecuteNonQuery();
                 myConn.Close();
-
+                MessageBox.Show("Database updated successfully", "Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 da = new OleDbDataAdapter($"SELECT * FROM {selectedTable}", myConn);
                 ds = new DataSet();
                 myConn.Open();
@@ -228,10 +244,104 @@ namespace DatabaseActivity
             tbxLastCol.Text = "";
         }
 
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Access Database (*.accdb;*.mdb)|*.accdb;*.mdb";
+                openFileDialog.FilterIndex = 1;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        if (myConn != null && myConn.State == ConnectionState.Open)
+                        {
+                            myConn.Close();
+                        }
+
+                        string dbPath = openFileDialog.FileName;
+                        string connString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbPath};Persist Security Info=False;";
+
+                        myConn = new OleDbConnection(connString);
+                        myConn.Open();
+
+                        DataTable tables = myConn.GetSchema("Tables");
+                        cmbTables.Items.Clear();
+
+                        foreach (DataRow row in tables.Rows)
+                        {
+                            string tableName = row["TABLE_NAME"].ToString();
+                            if (!tableName.StartsWith("MSys"))
+                            {
+                                cmbTables.Items.Add(tableName);
+                            }
+                        }
+                        MessageBox.Show("Database file connected successfully", "Connected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading database: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void ExportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PDF (*.pdf)|*.pdf";
+            saveFileDialog.FilterIndex = 1;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 20f, 20f);
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, new FileStream(saveFileDialog.FileName, FileMode.Create));
+                    pdfDoc.Open();
+
+                    pdfDoc.Add(new Paragraph($"Database Export: {selectedTable}\n\n"));
+
+                    PdfPTable pdfTable = new PdfPTable(dgvStudentInfo.ColumnCount);
+                    pdfTable.WidthPercentage = 100;
+
+                    foreach (DataGridViewColumn column in dgvStudentInfo.Columns)
+                    {
+                        PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                        cell.BackgroundColor = BaseColor.LIGHT_GRAY;
+                        pdfTable.AddCell(cell);
+                    }
+
+                    foreach (DataGridViewRow row in dgvStudentInfo.Rows)
+                    {
+                        if (!row.IsNewRow)
+                        {
+                            foreach (DataGridViewCell cell in row.Cells)
+                            {
+                                pdfTable.AddCell(cell.Value?.ToString() ?? "");
+                            }
+                        }
+                    }
+
+                    pdfDoc.Add(pdfTable);
+                    pdfDoc.Close();
+                    writer.Close();
+
+                    MessageBox.Show("PDF file saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error saving file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void DisplayControls(string currentTable)
         {
-            if(currentTable == "Student")
+            if (currentTable == "Student")
             {
+                pbDatabaseIcon.Visible = false;
                 pnlControls.Visible = true;
                 lblCourse.Visible = true;
                 lblFirstName.Visible = true;
@@ -250,8 +360,9 @@ namespace DatabaseActivity
                     tbxLastCol.Visible = false;
                 }
             }
-            else if(currentTable == "FinalGrade")
+            else if (currentTable == "FinalGrade")
             {
+                pbDatabaseIcon.Visible = false;
                 pnlControls.Visible = true;
                 lblCourse.Visible = true;
                 lblFirstName.Visible = true;
@@ -268,8 +379,9 @@ namespace DatabaseActivity
                 lblYearLevel.Text = "    FG4:";
                 lblLastCol.Text = "    FG5:";
             }
-            else if(currentTable == "SubjectsEnrolled")
+            else if (currentTable == "SubjectsEnrolled")
             {
+                pbDatabaseIcon.Visible = false;
                 pnlControls.Visible = true;
                 lblCourse.Visible = true;
                 lblFirstName.Visible = true;
@@ -285,6 +397,19 @@ namespace DatabaseActivity
                 lblCourse.Text = "CourseNum3:";
                 lblYearLevel.Text = "CourseNum4:";
                 lblLastCol.Text = "CourseNum5:";
+            }
+            else
+            {
+                pbDatabaseIcon.Visible = true;
+                pnlControls.Visible = false;
+                lblCourse.Visible = false;
+                lblFirstName.Visible = false;
+                lblLastName.Visible = false;
+                lblStudentID.Visible = false;
+                lblTableName.Visible = false;
+                lblYearLevel.Visible = false;
+                lblLastCol.Visible = false;
+                tbxLastCol.Visible = false;
             }
         }
     }
