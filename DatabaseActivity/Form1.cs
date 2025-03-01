@@ -224,16 +224,6 @@ namespace DatabaseActivity
             }
         }
 
-        private void RefreshDataGridView()
-        {
-            da = new OleDbDataAdapter($"SELECT * FROM {selectedTable}", myConn);
-            ds = new DataSet();
-            myConn.Open();
-            da.Fill(ds, selectedTable);
-            dgvStudentInfo.DataSource = ds.Tables[selectedTable];
-            myConn.Close();
-        }
-
         private void ClearTextFields()
         {
             tbxID.Text = "";

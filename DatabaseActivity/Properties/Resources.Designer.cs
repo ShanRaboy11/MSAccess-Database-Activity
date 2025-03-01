@@ -63,6 +63,26 @@ namespace DatabaseActivity.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _4213418_archive_documents_file_folder_office_icon {
+            get {
+                object obj = ResourceManager.GetObject("4213418_archive_documents_file_folder_office_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _9044304_document_export_icon {
+            get {
+                object obj = ResourceManager.GetObject("9044304_document_export_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap NY0y {
             get {
                 object obj = ResourceManager.GetObject("NY0y", resourceCulture);

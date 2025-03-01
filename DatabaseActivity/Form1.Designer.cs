@@ -76,6 +76,7 @@
             // 
             // dgvStudentInfo
             // 
+            dgvStudentInfo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvStudentInfo.BackgroundColor = Color.FromArgb(248, 230, 189);
             dgvStudentInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvStudentInfo.ContextMenuStrip = contextMenuStrip1;
@@ -134,15 +135,17 @@
             // 
             // exportToolStripMenuItem
             // 
+            exportToolStripMenuItem.Image = Properties.Resources._9044304_document_export_icon;
             exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            exportToolStripMenuItem.Size = new Size(180, 22);
+            exportToolStripMenuItem.Size = new Size(125, 22);
             exportToolStripMenuItem.Text = "Export";
             exportToolStripMenuItem.Click += ExportToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
             // 
+            openToolStripMenuItem.Image = Properties.Resources._4213418_archive_documents_file_folder_office_icon;
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(125, 22);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
             // 
@@ -281,6 +284,7 @@
             // 
             // pnlControls
             // 
+            pnlControls.Anchor = AnchorStyles.Right;
             pnlControls.BackColor = Color.FromArgb(157, 214, 231);
             pnlControls.Controls.Add(pbDatabaseIcon);
             pnlControls.Controls.Add(tbxLastCol);
@@ -306,6 +310,7 @@
             // 
             // pbDatabaseIcon
             // 
+            pbDatabaseIcon.Anchor = AnchorStyles.Right;
             pbDatabaseIcon.Image = Properties.Resources.NY0y;
             pbDatabaseIcon.Location = new Point(0, 0);
             pbDatabaseIcon.Name = "pbDatabaseIcon";
@@ -403,6 +408,7 @@
             // 
             // panel3
             // 
+            panel3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             panel3.BackColor = Color.FromArgb(157, 214, 231);
             panel3.Controls.Add(label4);
             panel3.Controls.Add(cmbTables);
@@ -413,6 +419,7 @@
             // 
             // panel2
             // 
+            panel2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             panel2.BackColor = Color.FromArgb(157, 214, 231);
             panel2.Controls.Add(btnConnect);
             panel2.Controls.Add(btnLoad);
@@ -423,6 +430,7 @@
             // 
             // lblTableName
             // 
+            lblTableName.Anchor = AnchorStyles.Right;
             lblTableName.BackColor = Color.FromArgb(157, 214, 231);
             lblTableName.Font = new Font("Helvetica Neue", 16F, FontStyle.Bold);
             lblTableName.ImageAlign = ContentAlignment.BottomCenter;
